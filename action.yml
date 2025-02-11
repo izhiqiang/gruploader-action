@@ -1,0 +1,130 @@
+name: 'gruploader release attachment'
+description: 'Upload the specified file or build file to the releases attachment'
+author: 'zhiqiang <zhiqiang2033@gmail.com>'
+
+inputs:
+  github_token:
+    description: 'GITHUB_TOKEN for uploading releases to Github asserts.'
+    required: true
+    default: ''
+  action:
+    description: 'Which language do you need to set for compilation? The default is Golang'
+    required: false
+    default: 'golang'
+  gruploader_version:
+    description: 'Set the running version of gruploader'
+    required: false
+    default: ""
+  gruploader_cloud:
+    description: 'Operating Git Cloud'
+    required: false
+    default: "github"
+  overwrite:
+    description: 'Is it mandatory to overwrite the upload'
+    required: false
+    default: "true"
+  retry:
+    description: 'Failed retry attempts'
+    required: false
+    default: 3
+
+  extra_files:
+    description: 'Load some files into a compressed file'
+    required: false
+    default: ""
+
+  maingo:
+    description: 'Go entrance file'
+    required: false
+    default: "main.go"
+  goos:
+    description: 'The environment variable GOOS used for go compilation'
+    required: true
+    default: ""
+  goarch:
+    description: 'The environment variable GOARCH used for go compilation'
+    required: true
+    default: ""
+  goversion:
+    description: 'The `Go` compiler version.'
+    required: false
+    default: ''
+  repository:
+    description: 'You operate the code repository'
+    required: false
+    default: ""
+  tag:
+    description: 'You operate the tag of the repository'
+    required: false
+    default: ""
+  bin_name:
+    description: 'The binary file name you generated'
+    required: false
+    default: ""
+  build_flags:
+    description: 'The environment variable BUILD_FLAGS used for go compilation'
+    required: false
+    default: ""
+  goamd64:
+    description: 'The environment variable GOAMD64 used for go compilation'
+    required: false
+    default: ""
+  goarm:
+    description: 'The environment variable GOARM used for go compilation'
+    required: false
+    default: ""
+  gomips:
+    description: 'The environment variable GOMIPS used for go compilation'
+    required: false
+    default: ""
+  ldflags:
+    description: 'The environment variable LDFLAGS used for go compilation'
+    required: false
+    default: ""
+
+  npm_install_pkg:
+    description: 'This is the command to install the npm package'
+    required: false
+    default: "npm install"
+  npm_build_command:
+    description: 'This is when you execute the npm run build command'
+    required: false
+    default: "npm run build"
+  npm_build_dist:
+    description: 'This is the directory generated after you execute the npm run build command'
+    required: false
+    default: "dist"
+
+
+outputs:
+  release_asset_dir:
+    description: 'Release file directory provided for use by other workflows'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.github_token }}
+    - ${{ inputs.gruploader_version }}
+    - ${{ inputs.gruploader_cloud }}
+    - ${{ inputs.overwrite }}
+    - ${{ inputs.retry }}
+    - ${{ inputs.extra_files }}
+    - ${{ inputs.maingo }}
+    - ${{ inputs.goos }}
+    - ${{ inputs.goarch }}
+    - ${{ inputs.repository }}
+    - ${{ inputs.tag }}
+    - ${{ inputs.bin_name }}
+    - ${{ inputs.build_flags }}
+    - ${{ inputs.goamd64 }}
+    - ${{ inputs.goarm }}
+    - ${{ inputs.gomips }}
+    - ${{ inputs.ldflags }}
+    - ${{ inputs.npm_install_pkg }}
+    - ${{ inputs.npm_build_command }}
+    - ${{ inputs.npm_build_dist }}
+
+branding:
+  icon: 'package'
+  color: 'blue'
