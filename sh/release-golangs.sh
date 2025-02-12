@@ -6,7 +6,8 @@ BIN_NAME="${BIN_NAME:-$(basename $(pwd))}"
 EXTRA_FILES="${EXTRA_FILES:-""}"
 MAIN_GO="${MAIN_GO:-"main.go"}"
 DIST_ROOT_PATH="dist"
-CHECKSUMS_FILE="${BIN_NAME}_${TAG_VERSION}_checksums.txt"
+SHA256_CHECKSUMS_FILE="${BIN_NAME}_${TAG_VERSION}_checksums.sha256"
+MD5_CHECKSUMS_FILE="${BIN_NAME}_${TAG_VERSION}_checksums.md5"
 
 
 function build() {
@@ -44,7 +45,8 @@ function build() {
     # 如果是其他系统，使用 tar 打包
     (cd ${dist_tmp_path} && tar -czf "../${compression_filename}" *)
   fi
-  (cd dist && sha256sum ${compression_filename} >> ${CHECKSUMS_FILE})
+  (cd dist && sha256sum ${compression_filename} >> ${SHA256_CHECKSUMS_FILE})
+  (cd dist && md5sum ${compression_filename} >> ${MD5_CHECKSUMS_FILE})
   echo "Packaged: ${DIST_ROOT_PATH}/${compression_filename}"
 }
 
